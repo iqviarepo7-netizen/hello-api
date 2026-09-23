@@ -1,10 +1,22 @@
-import pytest
-from fastapi.testclient import TestClient
-from app.main import app
+"""Test for the post‑login alert feature."""
 
-client = TestClient(app)
+import unittest
+from unittest.mock import patch
 
-def test_hello_world():
-    response = client.get("/hello_world_i_am_mk")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world! I am mk"}
+from app.main import login
+
+class TestWelcomeAlert(unittest.TestCase):
+    def test_alert_called_on_successful_login(self):
+        with patch("app.main.alert") as mock_alert:
+            result = login("user", "pass")
+            self.assertTrue(result)
+            mock_alert.assert_called_once_with("Welcome World")
+
+    def test_no_alert_on_failed_login(self):
+        with patch("app.main.alert") as mock_alert:
+            result = login("user", "wrong")
+            self.assertFalse(result)
+            mock_alert.assert_not_called()
+
+if __name__ == "__main__":
+    unittest.main()
