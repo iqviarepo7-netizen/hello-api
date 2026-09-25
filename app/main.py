@@ -2,6 +2,10 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+@app.post("/run-pipeline")
+async def run_pipeline():
+    """Endpoint triggered by the Run Pipeline button.
+    Returns a JSON payload that the front‑end can use to display a modal
+    with the text "welcome home".
+    """
+    return {"popup": "welcome home"}
