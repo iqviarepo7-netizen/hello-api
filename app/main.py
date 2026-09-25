@@ -1,7 +1,6 @@
-from fastapi import FastAPI
+def get_greeting():
+    """Return the application's greeting message."""
+    return "Welcome home"
 
-app = FastAPI()
-
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+if __name__ == "__main__":
+    print(get_greeting())
