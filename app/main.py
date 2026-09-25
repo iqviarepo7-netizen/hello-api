@@ -1,14 +1,29 @@
-from flask import Flask, jsonify
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/run-pipeline')
+
+@app.get("/", response_class=HTMLResponse)
+def read_root():
+    return """<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Pipeline</title>
+</head>
+<body>
+    <button id=\"run-pipeline-btn\">Run Pipeline</button>
+    <script>
+        document.getElementById('run-pipeline-btn').addEventListener('click', async () => {
+            const resp = await fetch('/run-pipeline');
+            const data = await resp.json();
+            alert(data.message);
+        });
+    </script>
+</body>
+</html>"""
+
+
+@app.get("/run-pipeline")
 def run_pipeline():
-    """Endpoint that simulates the Run Pipeline action.
-    Returns a JSON payload containing the welcome message that would be
-    displayed in a modal popup on the client side.
-    """
-    return jsonify(message='welcome home')
-
-if __name__ == '__main__':
-    app.run()
+    return {"message": "welcome home"}
