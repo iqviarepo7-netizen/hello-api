@@ -2,6 +2,15 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+# Existing routes can be defined above or below this comment
+
+@app.get("/hello_world", response_model=dict)
+async def hello_world() -> dict:
+    """Return a simple greeting message.
+
+    Returns
+    -------
+    dict
+        A dictionary with a single key ``message`` containing the greeting.
+    """
+    return {"message": "Hello, world!"}
