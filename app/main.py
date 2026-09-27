@@ -4,7 +4,7 @@ app = FastAPI()
 
 
 @app.get("/hello_world", response_model=dict)
-def hello_world() -> dict:
+async def hello_world() -> dict:
     """Return a simple greeting message.
 
     Returns
