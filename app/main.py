@@ -2,6 +2,10 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/hello_world_i_am_mk")
+@app.get("/hello_world", response_model=dict)
 def hello_world():
-    return {"message": "Hello, world! I am mk"}
+    return {"message": "Hello, World!"}
+
+@app.get("/hello_vanakam", response_model=dict)
+def hello_vanakam():
+    return {"message": "Vanakam!"}
