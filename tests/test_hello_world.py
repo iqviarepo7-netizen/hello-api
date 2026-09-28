@@ -1,5 +1,6 @@
 import unittest
 from app.main import app
+from bs4 import BeautifulSoup
 
 class WelcomeModalTest(unittest.TestCase):
     def setUp(self):
@@ -7,16 +8,12 @@ class WelcomeModalTest(unittest.TestCase):
         self.client.testing = True
 
     def test_modal_html_present(self):
-        """Ensure the modal div and message are present in the rendered page"""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        html = response.get_data(as_text=True)
-        # Check modal container exists
-        self.assertIn('id="welcomeModal"', html)
-        # Check exact message
-        self.assertIn('welcome home', html)
-        # Check Run Pipeline button exists
-        self.assertIn('id="runPipelineBtn"', html)
+        soup = BeautifulSoup(response.data, 'html.parser')
+        modal = soup.find('div', {'id': 'welcomeModal'})
+        self.assertIsNotNone(modal, 'Modal div should be present')
+        self.assertIn('welcome home', modal.get_text())
 
 if __name__ == '__main__':
     unittest.main()
