@@ -1,10 +1,22 @@
-import pytest
-from fastapi.testclient import TestClient
+import unittest
 from app.main import app
 
-client = TestClient(app)
+class WelcomeModalTest(unittest.TestCase):
+    def setUp(self):
+        self.client = app.test_client()
+        self.client.testing = True
 
-def test_hello_world():
-    response = client.get("/hello_world_i_am_mk")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world! I am mk"}
+    def test_modal_html_present(self):
+        """Ensure the modal div and message are present in the rendered page"""
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        html = response.get_data(as_text=True)
+        # Check modal container exists
+        self.assertIn('id="welcomeModal"', html)
+        # Check exact message
+        self.assertIn('welcome home', html)
+        # Check Run Pipeline button exists
+        self.assertIn('id="runPipelineBtn"', html)
+
+if __name__ == '__main__':
+    unittest.main()
