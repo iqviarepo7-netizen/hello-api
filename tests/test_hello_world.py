@@ -7,7 +7,6 @@ class WelcomeModalTest(unittest.TestCase):
         self.client.testing = True
 
     def test_modal_html_present(self):
-        """Ensure the modal div and message are present in the rendered page"""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         html = response.get_data(as_text=True)
