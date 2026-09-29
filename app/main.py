@@ -2,11 +2,14 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-# Define a simple response model (optional, but keeps type hints clear)
-class MessageResponse(BaseModel):
-    message: str
 
-@app.get("/", response_model=MessageResponse)
-async def read_root():
-    """Return a friendly greeting message when the app starts."""
+@app.get("/")
+def read_root():
+    """Root endpoint returning a greeting message.
+
+    Returns
+    -------
+    dict
+        A JSON‑serializable dictionary containing a ``message`` key.
+    """
     return {"message": "Hello, world!"}
