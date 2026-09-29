@@ -8,4 +8,3 @@ def hello_world():
 
 @app.get("/")
 def home():
-return {"message": ""}
