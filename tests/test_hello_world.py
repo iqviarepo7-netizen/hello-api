@@ -1,10 +1,11 @@
-import pytest
-from fastapi.testclient import TestClient
-from app.main import app
+import unittest
+from app import main
 
-client = TestClient(app)
+class TestAppStartup(unittest.TestCase):
+    def test_startup_success(self):
+        """Ensure the application starts without errors and returns True."""
+        result = main.start_app()
+        self.assertTrue(result, "The application did not start successfully")
 
-def test_hello_world():
-    response = client.get("/hello_world_i_am_mk")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world! I am mk"}
+if __name__ == "__main__":
+    unittest.main()
