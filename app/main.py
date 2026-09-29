@@ -2,6 +2,11 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+# Define a simple response model (optional, but keeps type hints clear)
+class MessageResponse(BaseModel):
+    message: str
+
+@app.get("/", response_model=MessageResponse)
+async def read_root():
+    """Return a friendly greeting message when the app starts."""
+    return {"message": "Hello, world!"}
