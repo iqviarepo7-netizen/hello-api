@@ -2,6 +2,14 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+
+@app.get("/")
+def read_root():
+    """Root endpoint returning a greeting message.
+
+    Returns
+    -------
+    dict
+        A JSON‑serializable dictionary containing a ``message`` key.
+    """
+    return {"message": "Hello, world!"}

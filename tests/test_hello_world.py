@@ -1,10 +1,13 @@
-import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
 
-def test_hello_world():
-    response = client.get("/hello_world_i_am_mk")
+def test_root_returns_message():
+    response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world! I am mk"}
+    json_data = response.json()
+    # Ensure the response is a non‑empty JSON object with a 'message' field
+    assert isinstance(json_data, dict) and json_data
+    assert "message" in json_data
+    assert json_data["message"] == "Hello, world!"
