@@ -1,32 +1,28 @@
 import logging
 
 # Configure basic logging for the application
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
-
 
 def initialize_services():
     """Placeholder for service initialization.
 
     In a real application this would set up database connections, API clients, etc.
-    Here we simply log that the services have been "initialized".
+    Here we simply log that the services have been initialized successfully.
     """
-    logger.info('Initializing placeholder services...')
-    # Add any required placeholder initializations here
-    logger.info('Services initialized successfully.')
-
+    logger.info('Initializing services...')
+    # Placeholder logic – replace with real initializations as needed
+    logger.info('All services initialized successfully.')
 
 def main():
     """Entry point for the application.
 
-    Performs any necessary startup steps and then runs the main logic.
+    Performs any required startup steps and then launches the main screen.
     """
-    logger.info('Application startup begins.')
+    logger.info('Application startup initiated.')
     initialize_services()
-    logger.info('Application started successfully. Ready for main screen.')
-    # Placeholder for main screen logic
-    print('Application is now running.')
-
+    # Simulate reaching the main screen
+    logger.info('Application started successfully. Main screen is now displayed.')
 
 if __name__ == "__main__":
     main()
