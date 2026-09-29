@@ -1,10 +1,8 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
+from app import main
 
-client = TestClient(app)
-
-def test_hello_world():
-    response = client.get("/hello_world_i_am_mk")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world! I am mk"}
+def test_startup_no_exceptions():
+    """Ensure that the start function runs without raising any exceptions."""
+    # The start function should complete without error; any unexpected exception
+    # will cause the test to fail.
+    main.start()

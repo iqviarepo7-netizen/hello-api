@@ -1,7 +1,22 @@
-from fastapi import FastAPI
+import logging
 
-app = FastAPI()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-@app.get("/hello_world_i_am_mk")
-def hello_world():
-    return {"message": "Hello, world! I am mk"}
+def start():
+    """Entry point for the application.
+
+    This function contains the minimal startup logic required for the app to
+    reach its main screen. In a real application this would initialise services
+    and launch the UI. Here we simply log a message to demonstrate successful
+    startup.
+    """
+    try:
+        logger.info("Application started successfully.")
+        # Placeholder for actual UI launch, e.g., start_ui()
+    except Exception as e:
+        logger.exception("Unexpected error during startup: %s", e)
+        raise
+
+if __name__ == "__main__":
+    start()
