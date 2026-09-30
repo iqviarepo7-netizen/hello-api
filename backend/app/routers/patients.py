@@ -18,9 +18,9 @@ def document_to_patient(doc: dict) -> PatientRead:
         gender=doc["gender"],
         phone=doc["phone"],
         address=doc["address"],
+        country=doc["country"],
         created_at=doc["created_at"],
     )
-
 
 @router.post("", response_model=PatientRead, status_code=status.HTTP_201_CREATED)
 def create_patient(
@@ -40,7 +40,6 @@ def create_patient(
             detail="Database unavailable",
         )
     return document_to_patient(doc)
-
 
 @router.get("", response_model=list[PatientRead])
 def list_patients(collection: Collection = Depends(get_patients_collection)):
