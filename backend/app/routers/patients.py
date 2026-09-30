@@ -16,6 +16,7 @@ def document_to_patient(doc: dict) -> PatientRead:
         name=doc["name"],
         age=doc["age"],
         gender=doc["gender"],
+        country=doc["country"],
         phone=doc["phone"],
         address=doc["address"],
         created_at=doc["created_at"],

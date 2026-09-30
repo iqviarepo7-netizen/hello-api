@@ -5,6 +5,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator
 
 Gender = Literal["Male", "Female", "Other"]
+Country = Literal["India", "Vietnam", "Japan", "China", "London"]
 
 PHONE_PATTERN = re.compile(r"^[\d\s+\-()]{7,20}$")
 
@@ -13,6 +14,7 @@ class PatientCreate(BaseModel):
     name: str = Field(min_length=1)
     age: int = Field(ge=1, le=150)
     gender: Gender
+    country: Country
     phone: str = Field(min_length=7, max_length=20)
     address: str = Field(min_length=1)
 
@@ -43,6 +45,7 @@ class PatientRead(BaseModel):
     name: str
     age: int
     gender: Gender
+    country: Country
     phone: str
     address: str
     created_at: datetime
