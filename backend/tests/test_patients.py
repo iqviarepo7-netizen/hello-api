@@ -9,6 +9,7 @@ def test_create_and_list_patient(client):
         "name": "Jane Doe",
         "age": 32,
         "gender": "Female",
+        "country": "India",
         "phone": "555-123-4567",
         "address": "123 Main St",
     }
@@ -30,7 +31,7 @@ def test_create_and_list_patient(client):
 def test_create_patient_missing_field(client):
     response = client.post(
         "/api/patients",
-        json={"age": 25, "gender": "Male", "phone": "5551234567", "address": "A"},
+        json={"age": 25, "gender": "Male", "country": "India", "phone": "5551234567", "address": "A"},
     )
     assert response.status_code == 422
 
@@ -42,6 +43,22 @@ def test_create_patient_invalid_age(client):
             "name": "Test",
             "age": 0,
             "gender": "Male",
+            "country": "India",
+            "phone": "5551234567",
+            "address": "Address",
+        },
+    )
+    assert response.status_code == 422
+
+
+def test_create_patient_invalid_country(client):
+    response = client.post(
+        "/api/patients",
+        json={
+            "name": "Test",
+            "age": 25,
+            "gender": "Male",
+            "country": "InvalidCountry",
             "phone": "5551234567",
             "address": "Address",
         },
