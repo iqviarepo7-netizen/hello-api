@@ -18,6 +18,7 @@ export default function PatientTable({ patients }) {
             <th>Gender</th>
             <th>Phone</th>
             <th>Address</th>
+            <th>Country</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@ export default function PatientTable({ patients }) {
               <td>{p.gender}</td>
               <td>{p.phone}</td>
               <td>{p.address}</td>
+              <td>{p.country}</td>
             </tr>
           ))}
         </tbody>
