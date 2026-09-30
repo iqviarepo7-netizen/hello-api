@@ -32,4 +32,4 @@ app.include_router(patients.router, prefix="/api")
 
 @app.get("/hello_world_i_am_mk")
 def hello_world():
-    return {"message": "Hello, world! I am mk"}
+    return {"message": "Hello World, I am MK"}
