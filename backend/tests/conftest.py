@@ -11,14 +11,14 @@ def _mock_mongo_client(monkeypatch):
     client = mongomock.MongoClient()
 
     def fake_connect():
-        import ..app.database as db
+        import app.database as db
 
         db._client = client
         return client
 
     monkeypatch.setattr("..app.database.connect_client", fake_connect)
     yield
-    import ..app.database as db
+    import app.database as db
 
     db.disconnect_client()
 
