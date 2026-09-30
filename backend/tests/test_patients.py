@@ -11,12 +11,14 @@ def test_create_and_list_patient(client):
         "gender": "Female",
         "phone": "555-123-4567",
         "address": "123 Main St",
+        "country": "India",
     }
     create = client.post("/api/patients", json=payload)
     assert create.status_code == 201
     body = create.json()
     assert body["name"] == payload["name"]
     assert body["age"] == payload["age"]
+    assert body["country"] == payload["country"]
     assert "id" in body
     assert "created_at" in body
 
@@ -25,6 +27,7 @@ def test_create_and_list_patient(client):
     patients = listing.json()
     assert len(patients) == 1
     assert patients[0]["name"] == payload["name"]
+    assert patients[0]["country"] == payload["country"]
 
 
 def test_create_patient_missing_field(client):
@@ -46,4 +49,31 @@ def test_create_patient_invalid_age(client):
             "address": "Address",
         },
     )
+    assert response.status_code == 422
+
+
+def test_create_patient_without_country(client):
+    payload = {
+        "name": "John Doe",
+        "age": 30,
+        "gender": "Male",
+        "phone": "555-987-6543",
+        "address": "456 Oak St",
+    }
+    response = client.post("/api/patients", json=payload)
+    assert response.status_code == 201
+    body = response.json()
+    assert body["country"] is None
+
+
+def test_create_patient_invalid_country(client):
+    payload = {
+        "name": "John Doe",
+        "age": 30,
+        "gender": "Male",
+        "phone": "555-987-6543",
+        "address": "456 Oak St",
+        "country": "InvalidCountry",
+    }
+    response = client.post("/api/patients", json=payload)
     assert response.status_code == 422
