@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class PatientCreate(BaseModel):
@@ -9,6 +9,12 @@ class PatientCreate(BaseModel):
   phone: str
   address: str
   country: str
+
+  @validator('age')
+  def age_must_be_positive(cls, v):
+    if v <= 0:
+      raise ValueError('Age must be greater than 0')
+    return v
 
   class Config:
     schema_extra = {
