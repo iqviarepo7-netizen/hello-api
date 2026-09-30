@@ -1,4 +1,5 @@
 const GENDERS = ['Male', 'Female', 'Other']
+const COUNTRIES = ['India', 'Vietnam', 'Japan', 'China', 'London']
 
 const emptyForm = {
   name: '',
@@ -6,6 +7,7 @@ const emptyForm = {
   gender: 'Male',
   phone: '',
   address: '',
+  country: '',
 }
 
 export { emptyForm }
@@ -94,6 +96,19 @@ export default function PatientForm({
           required
         />
         {fieldErrors.address && <div className="field-error">{fieldErrors.address}</div>}
+      </div>
+
+      <div className="form-field">
+        <label htmlFor="country">Country *</label>
+        <select id="country" name="country" value={values.country} onChange={handleChange} required>
+          <option value="">Select a country</option>
+          {COUNTRIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        {fieldErrors.country && <div className="field-error">{fieldErrors.country}</div>}
       </div>
 
       <div className="form-actions">
