@@ -18,6 +18,7 @@ def test_create_and_list_patient(client):
     body = create.json()
     assert body["name"] == payload["name"]
     assert body["age"] == payload["age"]
+    assert body["country"] == payload["country"]
     assert "id" in body
     assert "created_at" in body
 
@@ -26,6 +27,7 @@ def test_create_and_list_patient(client):
     patients = listing.json()
     assert len(patients) == 1
     assert patients[0]["name"] == payload["name"]
+    assert patients[0]["country"] == payload["country"]
 
 
 def test_create_patient_missing_field(client):
@@ -64,3 +66,21 @@ def test_create_patient_invalid_country(client):
         },
     )
     assert response.status_code == 422
+
+
+def test_create_patient_with_each_valid_country(client):
+    countries = ["India", "Vietnam", "Japan", "China", "London"]
+    for country in countries:
+        response = client.post(
+            "/api/patients",
+            json={
+                "name": "Test",
+                "age": 25,
+                "gender": "Male",
+                "country": country,
+                "phone": "5551234567",
+                "address": "Address",
+            },
+        )
+        assert response.status_code == 201
+        assert response.json()["country"] == country
