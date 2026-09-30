@@ -11,7 +11,7 @@ def test_create_and_list_patient(client):
         "gender": "Female",
         "phone": "555-123-4567",
         "address": "123 Main St",
-        "country": "India",
+        "country": "London",
     }
     create = client.post("/api/patients", json=payload)
     assert create.status_code == 201
