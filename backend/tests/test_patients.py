@@ -11,6 +11,7 @@ def test_create_and_list_patient(client):
         "gender": "Female",
         "phone": "555-123-4567",
         "address": "123 Main St",
+        "country": "India",
     }
     create = client.post("/api/patients", json=payload)
     assert create.status_code == 201
@@ -30,7 +31,7 @@ def test_create_and_list_patient(client):
 def test_create_patient_missing_field(client):
     response = client.post(
         "/api/patients",
-        json={"age": 25, "gender": "Male", "phone": "5551234567", "address": "A"},
+        json={"age": 25, "gender": "Male", "phone": "5551234567", "address": "A", "country": "India"},
     )
     assert response.status_code == 422
 
@@ -44,6 +45,7 @@ def test_create_patient_invalid_age(client):
             "gender": "Male",
             "phone": "5551234567",
             "address": "Address",
+            "country": "India",
         },
     )
     assert response.status_code == 422

@@ -1,48 +1,54 @@
-import re
 from datetime import datetime
-from typing import Literal
-
-from pydantic import BaseModel, Field, field_validator
-
-Gender = Literal["Male", "Female", "Other"]
-
-PHONE_PATTERN = re.compile(r"^[\d\s+\-()]{7,20}$")
+from pydantic import BaseModel, validator
 
 
 class PatientCreate(BaseModel):
-    name: str = Field(min_length=1)
-    age: int = Field(ge=1, le=150)
-    gender: Gender
-    phone: str = Field(min_length=7, max_length=20)
-    address: str = Field(min_length=1)
+  name: str
+  age: int
+  gender: str
+  phone: str
+  address: str
+  country: str
 
-    @field_validator("name", "address", "phone", mode="before")
-    @classmethod
-    def strip_strings(cls, v: object) -> object:
-        if isinstance(v, str):
-            return v.strip()
-        return v
+  @validator('age')
+  def age_must_be_positive(cls, v):
+    if v <= 0:
+      raise ValueError('Age must be greater than 0')
+    return v
 
-    @field_validator("name", "address")
-    @classmethod
-    def non_empty_after_strip(cls, v: str) -> str:
-        if not v:
-            raise ValueError("must not be empty")
-        return v
-
-    @field_validator("phone")
-    @classmethod
-    def validate_phone(cls, v: str) -> str:
-        if not PHONE_PATTERN.match(v):
-            raise ValueError("invalid phone number format")
-        return v
+  class Config:
+    schema_extra = {
+      "example": {
+        "name": "John Doe",
+        "age": 30,
+        "gender": "Male",
+        "phone": "1234567890",
+        "address": "123 Main St",
+        "country": "India",
+      }
+    }
 
 
 class PatientRead(BaseModel):
-    id: str
-    name: str
-    age: int
-    gender: Gender
-    phone: str
-    address: str
-    created_at: datetime
+  id: str
+  name: str
+  age: int
+  gender: str
+  phone: str
+  address: str
+  country: str
+  created_at: datetime
+
+  class Config:
+    schema_extra = {
+      "example": {
+        "id": "1234567890",
+        "name": "John Doe",
+        "age": 30,
+        "gender": "Male",
+        "phone": "1234567890",
+        "address": "123 Main St",
+        "country": "India",
+        "created_at": "2022-01-01T00:00:00+00:00",
+      }
+    }

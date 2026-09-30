@@ -11,6 +11,9 @@ function clientValidate(values) {
   else if (Number.isNaN(age) || age < 1 || age > 150) errors.age = 'Age must be between 1 and 150.'
   if (!values.phone.trim()) errors.phone = 'Phone is required.'
   if (!values.address.trim()) errors.address = 'Address is required.'
+  if (!values.country || !['India', 'Vietnam', 'Japan', 'China', 'United Kingdom'].includes(values.country)) {
+    errors.country = 'Country is required and must be one of the predefined options.'
+  }
   return errors
 }
 
@@ -37,6 +40,7 @@ export default function RegisterPatient() {
         gender: values.gender,
         phone: values.phone.trim(),
         address: values.address.trim(),
+        country: values.country,
       })
       setSuccess('Patient registered successfully.')
       setValues(emptyForm)
