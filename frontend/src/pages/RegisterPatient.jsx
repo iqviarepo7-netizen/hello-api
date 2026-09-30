@@ -11,7 +11,7 @@ function clientValidate(values) {
   else if (Number.isNaN(age) || age < 1 || age > 150) errors.age = 'Age must be between 1 and 150.'
   if (!values.phone.trim()) errors.phone = 'Phone is required.'
   if (!values.address.trim()) errors.address = 'Address is required.'
-  if (!values.country) errors.country = 'Country is required.'
+  if (!values.country || !['India', 'Vietnam', 'Japan', 'China', 'United Kingdom'].includes(values.country)) errors.country = 'Country is required and must be one of the predefined options.'
   return errors
 }
 
