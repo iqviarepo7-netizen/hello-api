@@ -1,48 +1,38 @@
-import re
-from datetime import datetime
-from typing import Literal
-
 from pydantic import BaseModel, Field, field_validator
-
-Gender = Literal["Male", "Female", "Other"]
-
-PHONE_PATTERN = re.compile(r"^[\d\s+\-()]{7,20}$")
+from datetime import datetime
+from typing import Optional
 
 
-class PatientCreate(BaseModel):
-    name: str = Field(min_length=1)
-    age: int = Field(ge=1, le=150)
-    gender: Gender
-    phone: str = Field(min_length=7, max_length=20)
-    address: str = Field(min_length=1)
+class PatientBase(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    age: int = Field(..., ge=1, le=150)
+    gender: str = Field(...)
+    phone: str = Field(..., min_length=1, max_length=20)
+    address: str = Field(..., min_length=1, max_length=500)
+    country: str = Field(...)
 
-    @field_validator("name", "address", "phone", mode="before")
-    @classmethod
-    def strip_strings(cls, v: object) -> object:
-        if isinstance(v, str):
-            return v.strip()
+    @field_validator('gender')
+    def gender_must_be_valid(cls, v):
+        allowed = {'Male', 'Female', 'Other'}
+        if v not in allowed:
+            raise ValueError(f'Gender must be one of {allowed}')
         return v
 
-    @field_validator("name", "address")
-    @classmethod
-    def non_empty_after_strip(cls, v: str) -> str:
-        if not v:
-            raise ValueError("must not be empty")
-        return v
-
-    @field_validator("phone")
-    @classmethod
-    def validate_phone(cls, v: str) -> str:
-        if not PHONE_PATTERN.match(v):
-            raise ValueError("invalid phone number format")
+    @field_validator('country')
+    def country_must_be_valid(cls, v):
+        allowed = {'India', 'Vietnam', 'Japan', 'China', 'London'}
+        if v not in allowed:
+            raise ValueError(f'Country must be one of {allowed}')
         return v
 
 
-class PatientRead(BaseModel):
+class PatientCreate(PatientBase):
+    pass
+
+
+class PatientRead(PatientBase):
     id: str
-    name: str
-    age: int
-    gender: Gender
-    phone: str
-    address: str
     created_at: datetime
+
+    class Config:
+        from_attributes = True
